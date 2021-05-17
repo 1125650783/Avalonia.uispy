@@ -17,10 +17,11 @@ namespace AvaloniaUIHelp
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow
-                {
-                    DataContext = new MainWindowViewModel(),
-                };
+                //desktop.MainWindow = new AppChoooser
+                //{
+                //    DataContext = new MainWindowViewModel(),
+                //};
+                desktop.MainWindow = new AppChoooser();
             }
 
             base.OnFrameworkInitializationCompleted();
