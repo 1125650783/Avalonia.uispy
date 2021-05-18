@@ -1,0 +1,87 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:AvaloniaUIHelp.Converters"
+        xmlns:local="clr-namespace:AvaloniaUIHelp.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="AvaloniaUIHelp.Views.SnoobUI"
+        Title="SnoobUI" >
+    <Window.Resources>
+        <converters:EnumToBooleanConverter  x:Key="EnumToBooleanConverter"></converters:EnumToBooleanConverter>
+    </Window.Resources>
+  <Grid ColumnDefinitions="Auto,*">
+    <StackPanel Orientation="Vertical">
+      <!--<Border Background="Beige" Height="100" Cursor="DragMove" ></Border>-->
+
+      <!--左边树-->
+      <TreeView Name="TreeView" SelectionChanged="TreeView_SelectionChanged" MinWidth="100" Items="{Binding TreeDataSource}">
+        <TreeView.DataTemplates>
+          <TreeDataTemplate ItemsSource="{Binding Children}">
+            <Border Background="Transparent">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock ToolTip.Tip="{Binding ToolTip}" Width="234" x:Name="content"  TextTrimming="CharacterEllipsis" Text="{Binding Name}"  Margin="5 0 0 0" VerticalAlignment="Center">
+                </TextBlock>
+              </StackPanel>
+            </Border>
+          </TreeDataTemplate>
+        </TreeView.DataTemplates>
+      </TreeView>
+    </StackPanel>
+    <GridSplitter HorizontalAlignment="Right" Width="2"></GridSplitter>
+
+    <TabControl Grid.Column="1">
+      <TabItem Header="属性">
+        <!--右边属性-->
+        <Grid RowDefinitions="Auto,*">
+          <StackPanel Orientation="Horizontal">
+            <!--<Border Background="Beige" Width="100" Cursor="UpArrow"   ></Border>-->
+            <TextBox Height="30" MinWidth="100" Text="{Binding Fitter}"/>
+
+          </StackPanel>
+
+          <!--<DataGrid Name="DataGrid" Margin="12" IsVisible="True">
+                  <DataGrid.Columns>
+                      -->
+          <!--CompiledBinding example of usage.-->
+          <!--
+                      <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"  />
+                      <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="2*" />
+                  </DataGrid.Columns>
+              </DataGrid>-->
+          <!--<ScrollViewer   VerticalScrollBarVisibility="Auto" Grid.Row="1">-->
+          <ListBox Name="ListBox"  Grid.Row="1" Items="{Binding CurVisualProperties}">
+            <ListBox.DataTemplates>
+              <DataTemplate>
+                <Grid ColumnDefinitions="500,*">
+                  <TextBlock Text="{Binding Name}"></TextBlock>
+                  <!--<TextBox Grid.Column="1" HorizontalAlignment="Stretch"  FontFamily="Microsoft YaHei" Text="{Binding  Path=StringValue,Mode=OneWay}" KeyDown="TextBox_KeyDown" ></TextBox>-->
+
+                  <TextBox Grid.Column="1" HorizontalAlignment="Stretch" IsVisible="{Binding TargetType,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static local:TargetType.Defult}}" FontFamily="Microsoft YaHei" Text="{Binding  Path=StringValue,Mode=OneWay}" KeyDown="TextBox_KeyDown" ></TextBox>
+                  <CheckBox Grid.Column="1" IsVisible="{Binding TargetType,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static local:TargetType.Bool}}" FontFamily="Microsoft YaHei" IsChecked="{Binding  Path=BolValue}" ></CheckBox>
+                  <ComboBox Grid.Column="1" IsVisible="{Binding TargetType,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static local:TargetType.Enum}}" Items="{Binding LisEnumValues}" SelectedItem="{Binding StringValue}"  >
+                    <ComboBox.ItemTemplate>
+                      <DataTemplate>
+                        <Border  Padding="5,0,0,0">
+                          <TextBlock  VerticalAlignment="Center" Text="{Binding Path=.}"/>
+                        </Border>
+                      </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                  </ComboBox>
+                </Grid>
+              </DataTemplate>
+            </ListBox.DataTemplates>
+          </ListBox>
+          <!--</ScrollViewer>-->
+        </Grid>
+
+
+
+
+
+
+      </TabItem>
+    </TabControl>
+
+  </Grid>
+</Window>
