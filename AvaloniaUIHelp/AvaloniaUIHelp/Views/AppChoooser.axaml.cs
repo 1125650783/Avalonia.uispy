@@ -103,12 +103,13 @@ namespace AvaloniaUIHelp.Views
                             else
                             {
                                 
-                                Point pointTest = e.GetPosition(desktopWindow);
-                                Point point = new Point(scremPoint.X- desktopWindow.Position.X, scremPoint.Y- desktopWindow.Position.Y);
-                                //Point? p2 = desktopWindow.TranslatePoint(point, desktopWindow);
+                                //Point pointTest = e.GetPosition(desktopWindow);
+                                //Point point = new Point(scremPoint.X- desktopWindow.Position.X, scremPoint.Y- desktopWindow.Position.Y);
+                              
+                                //屏幕位置转换为Avalonia位置
+                                Point p3 = desktopWindow.PointToClient(new PixelPoint(scremPoint.X, scremPoint.Y));
 
-                                IVisual visual = VisualExtensions.GetVisualAt(desktopWindow, point);
-
+                                IVisual visual = VisualExtensions.GetVisualAt(desktopWindow, p3);
                                 //IRenderRoot root = desktopWindow;
                                 //desktopWindow.Renderer.HitTestFirst(point, visual, x => x.IsVisible);
                                 //root.Renderer.HitTestFirst(point, visual, x=>x.IsVisible);

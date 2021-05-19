@@ -21,7 +21,7 @@
   <Window.Styles>
     <Style Selector="Window">
       <Setter Property="WindowState" Value="Normal"/>
-      <!--<Setter Property="SystemDecorations" Value="BorderOnly"/>-->
+      <Setter Property="SystemDecorations" Value="BorderOnly"/>
       <Setter Property="WindowStartupLocation"  Value="Manual"/>
       <Setter Property="Topmost" Value="True"/>
     </Style>
