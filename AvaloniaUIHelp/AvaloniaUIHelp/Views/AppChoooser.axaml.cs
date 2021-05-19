@@ -91,6 +91,7 @@ namespace AvaloniaUIHelp.Views
                 {
                     foreach (Window desktopWindow in desktop.Windows)
                     {
+                        Thickness tk = desktopWindow.OffScreenMargin;
                         if (desktopWindow.PlatformImpl.Handle.Handle == itIntPtr)
                         {
                             //ÍÆËÍÄÚÈÝ
