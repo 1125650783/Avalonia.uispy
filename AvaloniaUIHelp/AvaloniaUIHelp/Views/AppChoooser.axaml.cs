@@ -2,18 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using Avalonia.Rendering;
 using Avalonia.VisualTree;
 using AvaloniaUIHelp.Core;
 using AvaloniaUIHelp.DllImports;
 using AvaloniaUIHelp.Messages;
 using AvaloniaUIHelp.Models;
 using AvaloniaUIHelp.ViewModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using VisualExtensions = Avalonia.VisualTree.VisualExtensions;
 
 namespace AvaloniaUIHelp.Views
 {
@@ -26,14 +30,17 @@ namespace AvaloniaUIHelp.Views
         /// </summary>
         private Border btnStartWindowsSearch;
 
+        private CheckBox chkIsWindow;
+
         /// <summary>
         /// 搜索鼠标
         /// </summary>
         private Cursor m_ChoiceCursor;
 
+
         public AppChoooser()
         {
-            
+
             InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
@@ -43,7 +50,8 @@ namespace AvaloniaUIHelp.Views
             var loader = AvaloniaLocator.Current.GetService<IAssetLoader>();
             var s = loader.Open(new Uri("avares://AvaloniaUIHelp/Assets/shut.png"));
             var bitmap = new Bitmap(s);
-            m_ChoiceCursor = new Cursor(bitmap, new PixelPoint(0, 0));
+            //m_ChoiceCursor = new Cursor(bitmap, new PixelPoint(0, 0));
+            m_ChoiceCursor = new Cursor(StandardCursorType.Cross);
             this.btnStartWindowsSearch.PointerPressed += BtnStartWindowsSearch_PointerPressed;
             this.btnStartWindowsSearch.PointerReleased += BtnStartWindowsSearch_PointerReleased;
             SnoobUI.Init();
@@ -57,16 +65,18 @@ namespace AvaloniaUIHelp.Views
                 if (e.GetCurrentPoint(sender as IVisual).Properties.IsLeftButtonPressed)
                 {
                     this.btnStartWindowsSearch.Cursor = m_ChoiceCursor;
+                   Point pi= e.GetPosition(null);
+                  
                 }
             }
             catch (Exception exception)
             {
-               
+
             }
-            
+
         }
 
-      
+
 
         private void BtnStartWindowsSearch_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
@@ -74,17 +84,71 @@ namespace AvaloniaUIHelp.Views
             {
                 //释放 拉取控件
                 this.btnStartWindowsSearch.Cursor = null;
+                POINT scremPoint = new POINT(0, 0);
+                NativeMethods.GetCursorPos(ref scremPoint);
                 IntPtr itIntPtr = NativeMethods.GetWindowUnderMouse();
                 if (App.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                 {
                     foreach (Window desktopWindow in desktop.Windows)
                     {
-                        if (desktopWindow.PlatformImpl.Handle.Handle== itIntPtr)
+                        if (desktopWindow.PlatformImpl.Handle.Handle == itIntPtr)
                         {
                             //推送内容
-                            //SnoobUI snoobUi = new SnoobUI();
-                            //snoobUi.Show();
-                            MessageAggregator<VisualMessage>.Publish(new VisualMessage(desktopWindow));
+                            SnoopViewModel snoopViewModel;
+                            if (chkIsWindow.IsChecked.HasValue && chkIsWindow.IsChecked.Value)
+                            {
+                                snoopViewModel = new SnoopViewModel(desktopWindow);
+                            }
+                            else
+                            {
+                                
+                                Point pointTest = e.GetPosition(desktopWindow);
+                                Point point = new Point(scremPoint.X- desktopWindow.Position.X, scremPoint.Y- desktopWindow.Position.Y);
+                                //Point? p2 = desktopWindow.TranslatePoint(point, desktopWindow);
+
+                                IVisual visual = VisualExtensions.GetVisualAt(desktopWindow, point);
+
+                                //IRenderRoot root = desktopWindow;
+                                //desktopWindow.Renderer.HitTestFirst(point, visual, x => x.IsVisible);
+                                //root.Renderer.HitTestFirst(point, visual, x=>x.IsVisible);
+                                if (visual == null)
+                                {
+                                    snoopViewModel = new SnoopViewModel(desktopWindow);
+                                }
+                                else
+                                {
+                                    IVisual showVisual = visual;
+                                    if (visual is Control control)
+                                    {
+                                        if (control.TemplatedParent!=null)
+                                        {
+                                            try
+                                            {
+                                                showVisual = (IVisual)control.TemplatedParent;
+                                                if (showVisual==null)
+                                                {
+                                                    showVisual = visual;
+                                                }
+                                            }
+                                            catch (Exception exception)
+                                            {
+                                               
+                                            }
+                                           
+                                        }
+                                    }
+
+                                    snoopViewModel = new SnoopViewModel(showVisual);
+                                    //var childPoint = desktopWindow.TranslatePoint(point, visual);
+                                    //IVisual visual2 = VisualExtensions.GetVisualAt(visual, childPoint.Value);
+
+                                }
+
+                            }
+
+                            SnoobUI snoobUi = new SnoobUI(snoopViewModel);
+                            snoobUi.Show();
+                            //MessageAggregator<VisualMessage>.Publish(new VisualMessage(desktopWindow));
 
                             break;
                         }
@@ -94,21 +158,22 @@ namespace AvaloniaUIHelp.Views
             }
             catch (Exception exception)
             {
-              
+
             }
-          
+
 
         }
 
-     
 
-      
+
+
 
         #region 窗体
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
             btnStartWindowsSearch = this.FindControl<Border>("btnStartWindowsSearch");
+            chkIsWindow = this.FindControl<CheckBox>("chkIsWindow");
         }
 
         /// <summary>

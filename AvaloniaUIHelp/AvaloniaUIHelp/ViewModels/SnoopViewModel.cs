@@ -6,17 +6,19 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.VisualTree;
 using AvaloniaUIHelp.Core;
 using AvaloniaUIHelp.Messages;
 using AvaloniaUIHelp.Models;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 
 namespace AvaloniaUIHelp.ViewModels
 {
-    public class SnoopViewModel : ViewModelBase,IDisposable
+    public class SnoopViewModel : ViewModelBase, IDisposable
     {
         public SnoopViewModel(IVisual visualRoot)
         {
@@ -90,10 +92,10 @@ namespace AvaloniaUIHelp.ViewModels
 
             //    }
             //}
-            this.AllVisualProperties = Create(typeMessage.Obj,typeMessage.Type);
+            this.AllVisualProperties = Create(typeMessage.Obj, typeMessage.Type);
         }
 
-        public static ObservableCollection<VisualProperty> Create(object obj,Type type)
+        public static ObservableCollection<VisualProperty> Create(object obj, Type type)
         {
             List<PropertyInfo> propertyInfos =
                 type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance |
@@ -121,6 +123,21 @@ namespace AvaloniaUIHelp.ViewModels
                         visualProperty.TargetType = TargetType.Bool;
                         visualProperty.BolValue = Convert.ToBoolean(visualProperty.Value);
                     }
+
+                    if (propertyInfo.Name=="Text")
+                    {
+                        if (obj is TextBlock textBlock)
+                        {
+                            visualProperty.FontFamily = textBlock.FontFamily;
+                        }
+
+                        if (obj is TextBox textBox)
+                        {
+                            visualProperty.FontFamily = textBox.FontFamily;
+                        }
+                    }
+                   
+
                     lisVisualProperties.Add(visualProperty);
 
                 }
@@ -129,7 +146,7 @@ namespace AvaloniaUIHelp.ViewModels
 
                 }
             }
-           return lisVisualProperties;
+            return lisVisualProperties;
         }
 
         public void OnVisualMessage(VisualMessage visualMessage)
@@ -180,9 +197,29 @@ namespace AvaloniaUIHelp.ViewModels
             }
         }
 
-        [Reactive] public ObservableCollection<VisualProperty> CurVisualProperties { get; set; } = new ObservableCollection<VisualProperty>();
+        private ObservableCollection<VisualProperty> m_CurVisualProperties = new ObservableCollection<VisualProperty>();
 
-        [Reactive] public ObservableCollection<TreeModel> TreeDataSource { get; set; } = new ObservableCollection<TreeModel>();
+        public ObservableCollection<VisualProperty> CurVisualProperties
+        {
+            get => m_CurVisualProperties;
+            set
+            {
+                m_CurVisualProperties = value;
+                this.RaisePropertyChanged(nameof(CurVisualProperties));
+            }
+        }
+
+        private ObservableCollection<TreeModel> m_TreeDataSource = new ObservableCollection<TreeModel>();
+
+        public ObservableCollection<TreeModel> TreeDataSource
+        {
+            get => m_TreeDataSource;
+            set
+            {
+                m_TreeDataSource = value;
+                this.RaisePropertyChanged(nameof(TreeDataSource));
+            }
+        }
 
         private void Choice(string fitter, ObservableCollection<VisualProperty> allVisualProperties, ObservableCollection<VisualProperty> curVisualProperties)
         {
@@ -212,6 +249,10 @@ namespace AvaloniaUIHelp.ViewModels
                 Type parentType = parent.GetType();
                 treeModel.Name = parentType.Name;
                 treeModel.Object = parent;
+                treeModel.Bitmap = GetBitmap(parent);
+                treeModel.VisualBrush = new VisualBrush(parent);
+                BindWidth(parent, treeModel);
+                //treeModel.VisualBrush.Visual.Bounds.Width
                 if (parent is Control)
                 {
                     //treeModel.ToolTip = DeepCopy(parent, parentType);
@@ -224,13 +265,16 @@ namespace AvaloniaUIHelp.ViewModels
                 childrenTreeModel.Name = visualType.Name;
                 childrenTreeModel.Object = visual;
                 treeModel.Children.Add(childrenTreeModel);
-
+                childrenTreeModel.Bitmap = GetBitmap(visual);
+                childrenTreeModel.VisualBrush = new VisualBrush(visual);
+                BindWidth(visual, childrenTreeModel);
                 if (visual.VisualChildren.Count > 0)
                 {
                     GetChildrens(visual, childrenTreeModel, false);
                 }
                 if (visual is Control control)
                 {
+
                     childrenTreeModel.Name = $"{control.Name}({visualType.Name})";
                     //if (visual is Grid grid)
                     //{
@@ -255,6 +299,48 @@ namespace AvaloniaUIHelp.ViewModels
                 }
 
             }
+        }
+
+        public static void BindWidth(IVisual visual, TreeModel treeModel)
+        {
+            treeModel.Width = visual.Bounds.Width;
+            treeModel.Height = visual.Bounds.Height;
+            //if (visual is Control control )
+            //{
+            //    Binding widthBinding = new Binding(nameof(treeModel.Width), BindingMode.OneWayToSource);
+            //    widthBinding.Source = treeModel;
+            //    control.Bind(Control.WidthProperty, widthBinding);
+
+            //    Binding heightBinding = new Binding(nameof(treeModel.Height), BindingMode.OneWayToSource);
+            //    widthBinding.Source = treeModel;
+            //    control.Bind(Control.HeightProperty, heightBinding);
+            //}
+
+        }
+
+        public static IBitmap GetBitmap(IVisual visual)
+        {
+            try
+            {
+
+                int width = Convert.ToInt32(visual.Bounds.Width * 0.5);
+                int height = Convert.ToInt32(visual.Bounds.Height * 0.5);
+                if (visual.Bounds.Width == 0|| visual.Bounds.Width == 0)
+                {
+                    return null;
+                }
+
+                RenderTargetBitmap rtb = new RenderTargetBitmap(new PixelSize(Convert.ToInt32(visual.Bounds.Width), Convert.ToInt32(visual.Bounds.Height)));
+                rtb.Render(visual);
+                return rtb;
+            }
+            catch (Exception e)
+            {
+                RenderTargetBitmap rtb = new RenderTargetBitmap(new PixelSize(200,200));
+                rtb.Render(visual);
+                return rtb;
+            }
+          
         }
 
         public static int Compare([AllowNull] PropertyInfo x, [AllowNull] PropertyInfo y)

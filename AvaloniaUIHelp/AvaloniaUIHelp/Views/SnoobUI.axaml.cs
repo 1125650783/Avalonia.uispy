@@ -1,8 +1,11 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
+using Avalonia.VisualTree;
 using AvaloniaUIHelp.Core;
 using AvaloniaUIHelp.Messages;
 using AvaloniaUIHelp.ViewModels;
@@ -111,8 +114,12 @@ namespace AvaloniaUIHelp.Views
                     return;
                 }
 
+              
+                
+               
                 m_SnoopViewModel.AllVisualProperties =
                     SnoopViewModel.Create(treeModel.Object, treeModel.Object.GetType());
+               
             }
             catch (Exception exception)
             {
@@ -130,5 +137,10 @@ namespace AvaloniaUIHelp.Views
             AvaloniaXamlLoader.Load(this);
             this.Closed += SnoobUI_Closed;
         }
+
+     
+
+
+      
     }
 }

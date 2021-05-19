@@ -6,18 +6,27 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Media;
 using AvaloniaUIHelp.Models;
 using JetBrains.Annotations;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+
 
 
 namespace AvaloniaUIHelp.ViewModels
 {
     public class VisualProperty : ViewModelBase
     {
+        private string m_Name;
 
-        [Reactive] public string Name { get; set; }
+       public string Name
+       {
+           get => m_Name;
+           set
+           {
+               m_Name = value;
+               this.RaisePropertyChanged(nameof(Name));
+           }
+       }
 
         private object m_Value;
 
@@ -261,11 +270,32 @@ namespace AvaloniaUIHelp.ViewModels
 
         public PropertyInfo PropertyInfo { get; set; }
 
+        private TargetType m_TargetType = TargetType.Defult;
+
         /// <summary>
         /// 目标类型
         /// </summary>
-        [Reactive]
-        public TargetType TargetType { get; set; } = TargetType.Defult;
+        public TargetType TargetType
+        {
+            get => m_TargetType;
+            set
+            {
+                m_TargetType = value;
+                this.RaisePropertyChanged(nameof(TargetType));
+            }
+        }
+
+        private FontFamily m_FontFamily=new FontFamily("Microsoft YaHei");
+
+        public FontFamily FontFamily
+        {
+            get => m_FontFamily;
+            set
+            {
+                m_FontFamily = value;
+                this.RaisePropertyChanged(nameof(FontFamily));
+            }
+        }
 
     }
 }

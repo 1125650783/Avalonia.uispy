@@ -5,11 +5,22 @@
         xmlns:converters="clr-namespace:AvaloniaUIHelp.Converters"
         xmlns:local="clr-namespace:AvaloniaUIHelp.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="AvaloniaUIHelp.Views.SnoobUI"
+        x:Class="AvaloniaUIHelp.Views.SnoobUI" 
         Title="SnoobUI" >
-    <Window.Resources>
-        <converters:EnumToBooleanConverter  x:Key="EnumToBooleanConverter"></converters:EnumToBooleanConverter>
-    </Window.Resources>
+  <Window.Resources>
+    <converters:EnumToBooleanConverter  x:Key="EnumToBooleanConverter"></converters:EnumToBooleanConverter>
+      <converters:NarrowConverter x:Key="NarrowConverter"></converters:NarrowConverter>
+  </Window.Resources>
+  <Window.Styles>
+      <Style Selector="ToolTip">
+          <Setter Property="ShowDelay" Value="50000"/>
+          <Setter Property="IsOpen" Value="True"></Setter>
+      </Style>
+    <!--<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+    <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>-->
+    <!--<FluentTheme Mode="Dark"/>-->
+
+  </Window.Styles>
   <Grid ColumnDefinitions="Auto,*">
     <StackPanel Orientation="Vertical">
       <!--<Border Background="Beige" Height="100" Cursor="DragMove" ></Border>-->
@@ -18,11 +29,22 @@
       <TreeView Name="TreeView" SelectionChanged="TreeView_SelectionChanged" MinWidth="100" Items="{Binding TreeDataSource}">
         <TreeView.DataTemplates>
           <TreeDataTemplate ItemsSource="{Binding Children}">
-            <Border Background="Transparent">
-              <StackPanel Orientation="Horizontal">
-                <TextBlock ToolTip.Tip="{Binding ToolTip}" Width="234" x:Name="content"  TextTrimming="CharacterEllipsis" Text="{Binding Name}"  Margin="5 0 0 0" VerticalAlignment="Center">
+            <Border Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Border.Styles>
+                    
+                </Border.Styles>
+                <!--<StackPanel Orientation="Horizontal">-->
+                <TextBlock  Width="234" x:Name="content"  TextTrimming="CharacterEllipsis" Text="{Binding Name}"  Margin="5 0 0 0" VerticalAlignment="Center">
                 </TextBlock>
-              </StackPanel>
+              <!--</StackPanel>-->
+              <ToolTip.Tip>
+                <Rectangle  Stretch="Fill" Fill="{Binding VisualBrush}"  Width="{Binding VisualBrush.Visual.Bounds.Width,Converter={StaticResource NarrowConverter}}" Height="{Binding VisualBrush.Visual.Bounds.Height,Converter={StaticResource NarrowConverter}}">
+                </Rectangle>
+                  <!--<Rectangle  Fill="{Binding VisualBrush}"  Stretch="Fill" Width="200" Height="200">
+                  </Rectangle>-->
+                <!--<Border   Background="{Binding VisualBrush}" Width="200" Height="200"></Border>-->
+                  <!--<Image Source="{Binding Bitmap}" Stretch="Fill" Width="{Binding VisualBrush.Visual.Bounds.Width,Converter={StaticResource NarrowConverter}}" Height="{Binding VisualBrush.Visual.Bounds.Height,Converter={StaticResource NarrowConverter}}" ></Image>-->
+              </ToolTip.Tip>
             </Border>
           </TreeDataTemplate>
         </TreeView.DataTemplates>
@@ -57,7 +79,7 @@
                   <TextBlock Text="{Binding Name}"></TextBlock>
                   <!--<TextBox Grid.Column="1" HorizontalAlignment="Stretch"  FontFamily="Microsoft YaHei" Text="{Binding  Path=StringValue,Mode=OneWay}" KeyDown="TextBox_KeyDown" ></TextBox>-->
 
-                  <TextBox Grid.Column="1" HorizontalAlignment="Stretch" IsVisible="{Binding TargetType,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static local:TargetType.Defult}}" FontFamily="Microsoft YaHei" Text="{Binding  Path=StringValue,Mode=OneWay}" KeyDown="TextBox_KeyDown" ></TextBox>
+                  <TextBox Grid.Column="1" HorizontalAlignment="Stretch" IsVisible="{Binding TargetType,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static local:TargetType.Defult}}" FontFamily="{Binding FontFamily}" Text="{Binding  Path=StringValue,Mode=OneWay}" KeyDown="TextBox_KeyDown" ></TextBox>
                   <CheckBox Grid.Column="1" IsVisible="{Binding TargetType,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static local:TargetType.Bool}}" FontFamily="Microsoft YaHei" IsChecked="{Binding  Path=BolValue}" ></CheckBox>
                   <ComboBox Grid.Column="1" IsVisible="{Binding TargetType,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static local:TargetType.Enum}}" Items="{Binding LisEnumValues}" SelectedItem="{Binding StringValue}"  >
                     <ComboBox.ItemTemplate>

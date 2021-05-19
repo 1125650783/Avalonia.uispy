@@ -21,7 +21,7 @@
   <Window.Styles>
     <Style Selector="Window">
       <Setter Property="WindowState" Value="Normal"/>
-      <Setter Property="SystemDecorations" Value="BorderOnly"/>
+      <!--<Setter Property="SystemDecorations" Value="BorderOnly"/>-->
       <Setter Property="WindowStartupLocation"  Value="Manual"/>
       <Setter Property="Topmost" Value="True"/>
     </Style>
@@ -62,6 +62,7 @@
                 <Border VerticalAlignment="Stretch" PointerPressed="TitleMove">
                     <TextBlock Text="Snoob" FontSize="25" Foreground="#a0d0ea" VerticalAlignment="Center"/>
                 </Border>
+                <CheckBox Name="chkIsWindow">到窗体</CheckBox>
                 <Border Name="btnStartWindowsSearch" Padding="5" VerticalAlignment="Center" Background="White">
                     <Path x:Name="snoopCrosshairsImage"
                           Width="16"

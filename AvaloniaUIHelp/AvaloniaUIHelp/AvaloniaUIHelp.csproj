@@ -4,6 +4,18 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>岳志峰</Authors>
+    <Company></Company>
+    <AssemblyVersion>1.0.1.1</AssemblyVersion>
+    <FileVersion>1.0.1.1</FileVersion>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Version>1.0.4</Version>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\Avalonia\AvaloniaUISpy\AvaloniaUISpy\AvaloniaUIHelp\AvaloniaUIHelp\AvaloniaUIHelp.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>E:\Avalonia\AvaloniaUISpy\AvaloniaUISpy\AvaloniaUIHelp\AvaloniaUIHelp\AvaloniaUIHelp.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
@@ -17,8 +29,6 @@
     <PackageReference Include="Avalonia" Version="0.10.3" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.3" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.3" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.3" />
-    <PackageReference Include="ReactiveUI.Fody" Version="13.3.2" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Update="Assets\shut.png">

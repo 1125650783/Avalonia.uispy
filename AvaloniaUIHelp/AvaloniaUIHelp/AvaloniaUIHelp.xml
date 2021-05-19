@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AvaloniaUIHelp</name>
+    </assembly>
+    <members>
+        <member name="T:AvaloniaUIHelp.Core.ProgressCommunication">
+            <summary>
+            进程间通讯类型
+            </summary>
+        </member>
+        <member name="F:AvaloniaUIHelp.Core.ProgressCommunication.InnerCommunication">
+            <summary>
+            本客户端内部通信(事件的内核)
+            </summary>
+        </member>
+        <member name="F:AvaloniaUIHelp.Core.ProgressCommunication.ClientToClient">
+            <summary>
+            客户端间通信(例如手机A打手机B 不支持的)
+            </summary>
+        </member>
+        <member name="F:AvaloniaUIHelp.Core.ProgressCommunication.ClientToServer">
+            <summary>
+            客户端到服务器通信(手机A联系总部)
+            </summary>
+        </member>
+        <member name="F:AvaloniaUIHelp.Core.ProgressCommunication.ServerToClient">
+            <summary>
+            服务端到客户端的通信(例如学校广播 所有同学注意了 你注意不注意是你的事)
+            </summary>
+        </member>
+        <member name="T:AvaloniaUIHelp.Core.MessageAggregator`1">
+            <summary>
+            MessageAggregator(消息--实现发布订阅模式)
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:AvaloniaUIHelp.Core.MessageAggregator`1.Subscribe(System.Action{`0})">
+            <summary>
+            订阅消息
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:AvaloniaUIHelp.Core.MessageAggregator`1.UnSubscribe(System.Action{`0})">
+            <summary>
+            取消订阅
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:AvaloniaUIHelp.Core.MessageAggregator`1.Publish(`0,AvaloniaUIHelp.Core.ProgressCommunication)">
+            <summary>
+            发布消息
+            </summary>
+            <param name="t"></param>
+            <param name="progressCommunication"></param>
+        </member>
+        <member name="M:AvaloniaUIHelp.Core.MessageAggregator`1.DealMessage(`0)">
+            <summary>
+            处理接收的数据(不能删,不能重命名，虽然没有引用,通过反射访问这个方法)
+            </summary>
+            <param name="t"></param>
+        </member>
+        <member name="F:AvaloniaUIHelp.Models.TargetType.Defult">
+            <summary>
+            默认值
+            </summary>
+        </member>
+        <member name="F:AvaloniaUIHelp.Models.TargetType.Bool">
+            <summary>
+            布尔类型
+            </summary>
+        </member>
+        <member name="F:AvaloniaUIHelp.Models.TargetType.Enum">
+            <summary>
+            枚举类型
+            </summary>
+        </member>
+        <member name="M:AvaloniaUIHelp.ViewModels.SnoopViewModel.OnTypeMessage(AvaloniaUIHelp.Messages.TypeMessage)">
+            <summary>
+            接收到类型和对象消息
+            </summary>
+            <param name="typeMessage"></param>
+        </member>
+        <member name="P:AvaloniaUIHelp.ViewModels.TreeModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:AvaloniaUIHelp.ViewModels.TreeModel.ToolTip">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:AvaloniaUIHelp.ViewModels.TreeModel.Children">
+            <summary>
+            子节点
+            </summary>
+        </member>
+        <member name="E:AvaloniaUIHelp.ViewModels.ViewModelBase.PropertyChanged">
+            <summary>
+            属性值发生变化的属性
+            </summary>
+        </member>
+        <member name="M:AvaloniaUIHelp.ViewModels.ViewModelBase.RaisePropertyChanged(System.String)">
+            <summary>
+            激发属性变化事件
+            </summary>
+            <param name="propertyName"></param>
+        </member>
+        <member name="P:AvaloniaUIHelp.ViewModels.VisualProperty.TargetType">
+            <summary>
+            目标类型
+            </summary>
+        </member>
+        <member name="F:AvaloniaUIHelp.Views.AppChoooser.btnStartWindowsSearch">
+            <summary>
+            搜索
+            </summary>
+        </member>
+        <member name="F:AvaloniaUIHelp.Views.AppChoooser.m_ChoiceCursor">
+            <summary>
+            搜索鼠标
+            </summary>
+        </member>
+        <member name="M:AvaloniaUIHelp.Views.AppChoooser.TitleMove(System.Object,Avalonia.Input.PointerPressedEventArgs)">
+            <summary>
+            实现拖拽
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:AvaloniaUIHelp.Views.AppChoooser.InputMin_OnPointerPressed(System.Object,Avalonia.Input.PointerPressedEventArgs)">
+            <summary>
+            退出
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:AvaloniaUIHelp.Views.AppChoooser.InputElement_OnPointerPressed(System.Object,Avalonia.Input.PointerPressedEventArgs)">
+            <summary>
+            退出
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:AvaloniaUIHelp.Views.SnoobUI.TextBox_KeyDown(System.Object,Avalonia.Input.KeyEventArgs)">
+            <summary>
+            按下Enter变更属性
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+    </members>
+</doc>
