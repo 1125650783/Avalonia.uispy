@@ -9,7 +9,8 @@
     <AssemblyVersion>1.0.1.1</AssemblyVersion>
     <FileVersion>1.0.1.1</FileVersion>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
+    <Description>抓取控件</Description>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>E:\Avalonia\AvaloniaUISpy\AvaloniaUISpy\AvaloniaUIHelp\AvaloniaUIHelp\AvaloniaUIHelp.xml</DocumentationFile>
