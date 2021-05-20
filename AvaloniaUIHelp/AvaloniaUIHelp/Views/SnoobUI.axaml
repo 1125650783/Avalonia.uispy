@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:AvaloniaUIHelp.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaUIHelp.Views.SnoobUI" 
+        Height="408"
+        Width="1000"
         Title="SnoobUI" >
   <Window.Resources>
     <converters:EnumToBooleanConverter  x:Key="EnumToBooleanConverter"></converters:EnumToBooleanConverter>
@@ -55,7 +57,7 @@
     <TabControl Grid.Column="1">
       <TabItem Header="属性">
         <!--右边属性-->
-        <Grid RowDefinitions="Auto,*">
+        <Grid RowDefinitions="Auto,*,Auto">
           <StackPanel Orientation="Horizontal">
             <!--<Border Background="Beige" Width="100" Cursor="UpArrow"   ></Border>-->
             <TextBox Height="30" MinWidth="100" Text="{Binding Fitter}"/>
@@ -75,8 +77,8 @@
           <ListBox Name="ListBox"  Grid.Row="1" Items="{Binding CurVisualProperties}">
             <ListBox.DataTemplates>
               <DataTemplate>
-                <Grid ColumnDefinitions="500,*">
-                  <TextBlock Text="{Binding Name}"></TextBlock>
+                <Grid ColumnDefinitions="300,*">
+                  <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Name}"></TextBlock>
                   <!--<TextBox Grid.Column="1" HorizontalAlignment="Stretch"  FontFamily="Microsoft YaHei" Text="{Binding  Path=StringValue,Mode=OneWay}" KeyDown="TextBox_KeyDown" ></TextBox>-->
 
                   <TextBox Grid.Column="1" HorizontalAlignment="Stretch" IsVisible="{Binding TargetType,Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static local:TargetType.Defult}}" FontFamily="{Binding FontFamily}" Text="{Binding  Path=StringValue,Mode=OneWay}" KeyDown="TextBox_KeyDown" ></TextBox>
@@ -94,6 +96,7 @@
               </DataTemplate>
             </ListBox.DataTemplates>
           </ListBox>
+          <Border Background="#E1E1E1" Height="50" Grid.Row="2" ></Border>
           <!--</ScrollViewer>-->
         </Grid>
 

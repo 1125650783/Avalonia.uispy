@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
@@ -41,6 +42,10 @@ namespace AvaloniaUIHelp.Views
             this.AttachDevTools();
             m_SnoopViewModel = snoopViewModel;
             this.DataContext = m_SnoopViewModel;
+            TreeModel treeModel = m_SnoopViewModel.TreeDataSource.FirstOrDefault();
+            m_SnoopViewModel.AllVisualProperties =
+                SnoopViewModel.Create(treeModel.Object, treeModel.Object.GetType());
+
         }
 
         public static void Init()
