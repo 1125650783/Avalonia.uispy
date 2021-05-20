@@ -128,12 +128,18 @@ namespace AvaloniaUIHelp.ViewModels
                     {
                         if (obj is TextBlock textBlock)
                         {
-                            visualProperty.FontFamily = textBlock.FontFamily;
+                            if (textBlock.FontFamily!=FontFamily.Default)
+                            {
+                                visualProperty.FontFamily = textBlock.FontFamily;
+                            }
                         }
 
                         if (obj is TextBox textBox)
                         {
-                            visualProperty.FontFamily = textBox.FontFamily;
+                            if (textBox.FontFamily!= FontFamily.Default)
+                            {
+                                visualProperty.FontFamily = textBox.FontFamily;
+                            }
                         }
                     }
                    
