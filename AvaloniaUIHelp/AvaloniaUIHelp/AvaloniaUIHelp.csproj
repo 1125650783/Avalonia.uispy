@@ -11,6 +11,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Version>1.0.6</Version>
     <Description>抓取控件</Description>
+    <Copyright>https://gitee.com/yuezhifeng/avalonia-uispy.git</Copyright>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>E:\Avalonia\AvaloniaUISpy\AvaloniaUISpy\AvaloniaUIHelp\AvaloniaUIHelp\AvaloniaUIHelp.xml</DocumentationFile>
